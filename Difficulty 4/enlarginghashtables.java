@@ -2,46 +2,38 @@
 import java.util.*;
 import java.io.*;
 
-class irepeatmyself{
-  //Difficulty: 3.0
+class enlarginghashtables{
+  //Difficulty: 3.6
   public static void main(String[] args) throws IOException{
     Rd.init(System.in);
     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    int t = Rd.nextInt(), i;
-    for (i = 0; i < t; i++){
-      String line = Rd.nextLine();
-      bw.write(solve(line) + "\n");
+    int n, i;
+    while ((n = Rd.nextInt()) != 0){
+      boolean prime = isPrime(n);
+      i = 2*n+1;
+      while (!isPrime(i)){
+        i++;
+      }
+      bw.write(String.format("%d%s", i, prime?"\n":String.format(" (%d is not prime)\n", n)));
     }
     bw.flush();
   }
   
-  public static int solve(String s){
-    int i, start = 0, end = 0;
-    for (i = 1; i < s.length(); i++){
-      if (s.charAt(i) == s.charAt(0)){
-        end = i;
-        break;
-      }
+  public static boolean isPrime(long n){
+    if (n % 2 == 0)
+      return n == 2;
+    if (n % 3 == 0)
+      return n == 3;
+    for (long i = 5; i * i <= n; i += 6){
+      if (n % i == 0)
+        return false;
     }
-    if (end == 0){
-      return s.length();
+    for (long i = 7; i * i <= n; i += 6){
+      if (n % i == 0)
+        return false;
     }
-    for (i = end; i < s.length(); i++){
-      if (start == end){
-        start = 0;
-      }
-      if (s.charAt(start) == s.charAt(i)){
-        start++;
-      } else {
-        while (i < s.length() && s.charAt(i) != s.charAt(0))
-          i++;
-        end = i;
-        start = 1;
-      }
-    }
-    return end;
+    return true;
   }
-      
 }
 class Rd{
   static BufferedReader reader;
@@ -70,6 +62,22 @@ class Rd{
     String out = s.toString();
     return out.substring(0, out.length()-1);
   }
+  
+  static boolean hasMoreTokens() { 
+    while (tokenizer == null || !tokenizer.hasMoreTokens()) { 
+      String s = null; 
+      try { 
+        s = reader.readLine(); 
+      } catch (IOException e) { 
+        e.printStackTrace(); 
+      } 
+      if (s == null) 
+        return false; 
+      tokenizer = new StringTokenizer(s); 
+    } 
+    return true; 
+  }
+  
   static int nextInt() throws IOException {
     return Integer.parseInt(next());
   }

@@ -2,46 +2,28 @@
 import java.util.*;
 import java.io.*;
 
-class irepeatmyself{
-  //Difficulty: 3.0
+class esej{
+  //Difficulty: 3.1
   public static void main(String[] args) throws IOException{
     Rd.init(System.in);
     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    int t = Rd.nextInt(), i;
-    for (i = 0; i < t; i++){
-      String line = Rd.nextLine();
-      bw.write(solve(line) + "\n");
+    int a = Rd.nextInt(), b = Rd.nextInt(), i, l = Math.max(a, b/2);
+    
+    for (i = 0; i < l; i++){
+      bw.write(convert((i+1)));
+      bw.write(" ");
     }
     bw.flush();
   }
   
-  public static int solve(String s){
-    int i, start = 0, end = 0;
-    for (i = 1; i < s.length(); i++){
-      if (s.charAt(i) == s.charAt(0)){
-        end = i;
-        break;
-      }
+  public static String convert(int i){
+    StringBuilder sb = new StringBuilder();
+    while (i != 0){
+      sb.append((char)('a'+ i%26));
+      i /= 26;
     }
-    if (end == 0){
-      return s.length();
-    }
-    for (i = end; i < s.length(); i++){
-      if (start == end){
-        start = 0;
-      }
-      if (s.charAt(start) == s.charAt(i)){
-        start++;
-      } else {
-        while (i < s.length() && s.charAt(i) != s.charAt(0))
-          i++;
-        end = i;
-        start = 1;
-      }
-    }
-    return end;
+    return sb.toString();
   }
-      
 }
 class Rd{
   static BufferedReader reader;
@@ -70,6 +52,22 @@ class Rd{
     String out = s.toString();
     return out.substring(0, out.length()-1);
   }
+  
+  static boolean hasMoreTokens() { 
+    while (tokenizer == null || !tokenizer.hasMoreTokens()) { 
+      String s = null; 
+      try { 
+        s = reader.readLine(); 
+      } catch (IOException e) { 
+        e.printStackTrace(); 
+      } 
+      if (s == null) 
+        return false; 
+      tokenizer = new StringTokenizer(s); 
+    } 
+    return true; 
+  }
+  
   static int nextInt() throws IOException {
     return Integer.parseInt(next());
   }
