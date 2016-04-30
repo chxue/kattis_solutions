@@ -2,54 +2,17 @@
 import java.util.*;
 import java.io.*;
 
-class unionfind{
-  //Difficulty: 3.3
-  //important lesson: flatten the tree while searching for head. always attach smaller tree to bigger tree.
-  public static int[] head, size;
+class bijele{
+  //Difficulty: 2.0
   public static void main(String[] args) throws IOException{
     Rd.init(System.in);
+    int[] chess = {1, 1, 2, 2, 2, 8};
+    int i;
     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    int n = Rd.nextInt(), q = Rd.nextInt(), i;
-    head = new int[n];
-    size = new int[n];
-    for (i = 0; i < n; i++){
-      head[i] = i;
+    for (i = 0 ; i < chess.length; i++){
+      bw.write((chess[i] - Rd.nextInt()) + " ");
     }
-    for (i = 0; i < q; i++){
-      String op = Rd.next();
-      int a = Rd.nextInt(), b = Rd.nextInt();
-      if (op.equals("?"))
-        bw.write(find(a, b)?"yes\n":"no\n");
-      else 
-        union(a, b);
-    }
-    
     bw.flush();
-  }
-  
-  public static void union(int a, int b){
-    int aHead = getHead(a), bHead = getHead(b);
-    if (aHead != bHead){
-      if (size[aHead] <= size[bHead]){
-        head[aHead] = bHead;
-        size[bHead] += size[aHead];
-      } else {
-        head[bHead] = aHead;
-        size[aHead] += size[bHead];
-      }
-    }
-  }
-  
-  public static boolean find(int a, int b){
-    return getHead(a) == getHead(b);
-  }
-  
-  public static int getHead(int i){
-    while (head[i] != i){
-      head[i] = head[head[i]];
-      i = head[i];
-    }
-    return i;
   }
 }
 class Rd{
@@ -79,6 +42,22 @@ class Rd{
     String out = s.toString();
     return out.substring(0, out.length()-1);
   }
+  
+  static boolean hasMoreTokens() { 
+    while (tokenizer == null || !tokenizer.hasMoreTokens()) { 
+      String s = null; 
+      try { 
+        s = reader.readLine(); 
+      } catch (IOException e) { 
+        e.printStackTrace(); 
+      } 
+      if (s == null) 
+        return false; 
+      tokenizer = new StringTokenizer(s); 
+    } 
+    return true; 
+  }
+  
   static int nextInt() throws IOException {
     return Integer.parseInt(next());
   }

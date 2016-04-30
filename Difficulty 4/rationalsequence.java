@@ -2,54 +2,49 @@
 import java.util.*;
 import java.io.*;
 
-class unionfind{
-  //Difficulty: 3.3
-  //important lesson: flatten the tree while searching for head. always attach smaller tree to bigger tree.
-  public static int[] head, size;
+class rationalsequence{
+  //Difficulty: 3.4
   public static void main(String[] args) throws IOException{
     Rd.init(System.in);
     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    int n = Rd.nextInt(), q = Rd.nextInt(), i;
-    head = new int[n];
-    size = new int[n];
-    for (i = 0; i < n; i++){
-      head[i] = i;
+    int t = Rd.nextInt();
+    while (t-- > 0){
+      String setNum = Rd.next();
+      String[] frac = Rd.next().split("/");
+      Fraction f = new Fraction(Integer.parseInt(frac[0]), Integer.parseInt(frac[1]));
+      bw.write(String.format("%s %s", setNum, f.next().toString()));
+      bw.newLine();
     }
-    for (i = 0; i < q; i++){
-      String op = Rd.next();
-      int a = Rd.nextInt(), b = Rd.nextInt();
-      if (op.equals("?"))
-        bw.write(find(a, b)?"yes\n":"no\n");
-      else 
-        union(a, b);
-    }
-    
     bw.flush();
   }
   
-  public static void union(int a, int b){
-    int aHead = getHead(a), bHead = getHead(b);
-    if (aHead != bHead){
-      if (size[aHead] <= size[bHead]){
-        head[aHead] = bHead;
-        size[bHead] += size[aHead];
-      } else {
-        head[bHead] = aHead;
-        size[aHead] += size[bHead];
-      }
-    }
+  
+}
+
+class Fraction{
+  int x, y;
+  public Fraction(int a, int b){
+    x = a;
+    y = b;
   }
   
-  public static boolean find(int a, int b){
-    return getHead(a) == getHead(b);
+  public String toString(){
+    return String.format("%d/%d", x, y);
   }
   
-  public static int getHead(int i){
-    while (head[i] != i){
-      head[i] = head[head[i]];
-      i = head[i];
+  public Fraction next(){
+    if (x < y){
+      return new Fraction(y, y-x);
     }
-    return i;
+    if (y == 1){
+      return new Fraction(1, x+1);
+    }
+    int lvl = x/y;
+    x %= y;
+    y -= x;
+    x += y;
+    y += lvl * x;
+    return new Fraction(x, y);
   }
 }
 class Rd{
@@ -79,6 +74,22 @@ class Rd{
     String out = s.toString();
     return out.substring(0, out.length()-1);
   }
+  
+  static boolean hasMoreTokens() { 
+    while (tokenizer == null || !tokenizer.hasMoreTokens()) { 
+      String s = null; 
+      try { 
+        s = reader.readLine(); 
+      } catch (IOException e) { 
+        e.printStackTrace(); 
+      } 
+      if (s == null) 
+        return false; 
+      tokenizer = new StringTokenizer(s); 
+    } 
+    return true; 
+  }
+  
   static int nextInt() throws IOException {
     return Integer.parseInt(next());
   }

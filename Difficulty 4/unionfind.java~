@@ -45,9 +45,12 @@ class unionfind{
   }
   
   public static int getHead(int i){
+    //Stack<Integer> traversed = new Stack<Integer>();
     while (head[i] != i){
       head[i] = head[head[i]];
       i = head[i];
+      
+      //traversed.add(i);
     }
     return i;
   }
